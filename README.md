@@ -1588,3 +1588,70 @@ docker run -d -p 5000:5000 --name Nombre_Contenedor registry
 
 ## Subir/Bajar imagen a un registro
 
+Es similar a subir una imagen a docker hub, con la diferencia que en vez de colocar nuestro usuario, colocamos la direccion/Nombre Equipo y puerto del registro.
+
+### Crear Tag
+Como requisito previo al igual que en HUB, es necesario ocupar `docker tag`.
+
+Ejemplo
+```ps
+# Estructura
+docker tag Imagen_Etiquetar Direccion/Nombre:Puerto/Nombre_Imagen
+# Ejemplo
+docker tag ubuntu localhost:5555/nuevo-ubuntu
+```
+>No es recomendable ocupar localhost, solo referencia para ejemplo.
+>
+>para buscar la imagen es `docker images Nombre_Imagen` ejemplo `docker images localhost:5555/*` y mostrara todos las imagenes que esten en el registro.
+
+### Subir imagen
+Ejemplo subir imagen a registro
+```ps
+# HUB Docker
+docker push nombre_usuario/nombre_imagen:tag
+# Registro
+docker push Direccion/NombreMaquina:Puerto/Nombre_Imagen:tag
+# Ejemplo "Real"
+docker push localhost:5555/nuevo-ubuntu:latest
+```
+>Docker sabra a que repostiorio subira la imagen. por lo tanto no es un dato que pida.
+### Descargar imagen
+
+Es igual como a cualquier imagen.
+```ps
+docker pull nombre_usuario/nombre_imagen:tag
+# Registro
+docker pull Direccion/NombreMaquina:Puerto/Nombre_Imagen:tag
+# Ejemplo "Real"
+docker pull localhost:5555/nuevo-ubuntu:latest
+```
+>El tag por defecto es latest.
+
+## Almacenamiento Docker Registry
+
+Registry al igual que cualquier imagen de docker, se puede especificar la opcion de donde se almacena la informacion de la imagen, con el volumen.
+
+Por defecto es donde docker guarda los volumenes
+```ps
+/var/lib/docker/volumes/xxxxxxxxx/_data
+```
+>para saber la direccion y mas informacion se ocupa `docker inspect Nombre_imagen`
+
+Para dejar las imagenes en un lugar especifico, se realiza lo mismo que en cualquier imagen.
+```ps
+# crear carpeta
+mkdir /Nombre_carpeta_equipo_local
+# Comando para crear contenedor con volumen relacionado
+docker run -d --name Nombre_Contenedor -p 5000:5000 -v /Nombre_carpeta_equipo_local:/Nombre_carpeta_equipo_local Nombre_Imagen
+
+# Ejemplo
+
+mkdir /Registros
+
+docker run -d --name registro_ejemplo -p 5000:5000 -v /Registros:/var/lib/registry registry
+```
+> __"Destination"__ es el que contiene la direccion `/var/lib/registry`, en la informacion del contenedor, y es donde por defecto registry guarda las imagenes.
+
+# Docker Swarm
+
+Swarm sirve para trabajar a nivel de cluster
