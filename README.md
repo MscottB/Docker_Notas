@@ -1654,4 +1654,13 @@ docker run -d --name registro_ejemplo -p 5000:5000 -v /Registros:/var/lib/regist
 
 # Docker Swarm
 
-Swarm sirve para trabajar a nivel de cluster
+Permite crear un cluster de multiples nodos docker, permitiendo disponer de manera replicada, los "servicios"(Componente que se replica) que creamos, en varios nodos del cluster. Ademas de funcionar de manera independiente.
+>Cada nodos es un entorno como vps, server dedicado o similar.
+
+* Servicios Swarm: El servicio es en resumen un contenedor que se esta ejecutando, como cuando se inicia un docker-compose y se especifican los servicios.
+
+## Crear Cluster (Docker Swarm)
+
+>No es posible colocar mas de un nodo dentro de un equipo fisico.
+
+
