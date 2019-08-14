@@ -1661,6 +1661,119 @@ Permite crear un cluster de multiples nodos docker, permitiendo disponer de mane
 
 ## Crear Cluster (Docker Swarm)
 
->No es posible colocar mas de un nodo dentro de un equipo fisico.
+>No es posible colocar mas de un nodo dentro de un equipo (fisico, vps, etc.).
+>
+>No es posible mas de un nodo en un equipo ya que es necesario, una direccion IP.
+
+El siguiente comando:
+```ps
+docker swarm
+```
+>permitira la gestion del cluster.
+```ps
+docker services
+```
+>Permite crear servicios y tareas dentro del cluster.
+
+Finalmente para crear un Cluster se ocupa lo siguiente:
+```ps
+# Inicio Normal
+docker swarm init
+
+# Inicio al poseer multipes IP
+docker swarm init --advertise-addr xxx.xxx.xx.xxx
+```
+>Cambiar las X por la direccion IP seleccionada.
+>
+>Inicia un nuevo cluster, y asigna el equipo como maetro, ademas de entregar un token, que permite unir los equipos esclavos al maestro.
+>
+>En caso de que se inicie en una VM(Ya que se dispone de multiples IP), se le debe asignar la direccion IP para iniciar correctamente.
+>
+>Para evitar problemas iniciar swarm en equipos con IP estaticas, no dinamicas.
+
+Al ejecutar el comando entregara la siguiente informacion:
+* Mostrará que es manager(maestro) o esclavo.
+* entregara el comando con el cual se podra agregar un worker, un equipo esclavo al maestro, este incluye un token.
+
+Se recomienda copiar el comando incluyendo el token, en caso de perderse, se puede obtener con el comando presentado a continuacion:
+```ps
+docker info
+```
+Donde mostrara, que docker swarm esta activado, ademas de algunas otras opciones como las siguientes:
+* NodeID
+* Is Manager
+* ClusterID
+* Managers
+* Nodes
+* workers
+>El swarm que esta como maestro(manager), tambien se puede ocupar como worker(esclavo). **NO SE RECOMIENDA**
+
+Finalmente, en caso de perder el comando se ocupa:
+```ps
+docker swarm join-token worker
+```
+
+## Añadir nodos
+
+Para ver la informacion relacionada a los nodos se ocupa `docker info` en la seecion swarm.
+
+### Nodo 1 (Manager/Maestro)
+Para añadir los nodos primero se debe iniciar el docker swarm con la direccion IP, especifica en caso de poseer mas de una, en el PRIMER nodo a ocupar.
+```ps
+# Inicio general
+docker swarm init
+# Inicio con IP especifica
+docker swarm init --advertise-addr xxx.xxx.xx.xxx
+```
+>Reemplazar las X con los numeros de la direccion IP.
+
+Se copia el `docker swarm join --token XXXX`(Las XXXX son el resto de la informacion del token).
+
+### Nodo 2 o posterior(Worker/Esclavo)
+
+En los nodos que desea unir al primero se debe tener docker instalado y agregar el `docker swarm join --token XXXX` que se obtuvo previamente.
+
+Al realizar, el ingreso anterior se mostrara el mensaje `This node joined a swarm as a worker`, confirmando la union al primer nodo.
+
+## Trabajar con Nodos/Cluster
+
+Para poder trabajar de manera comoda y obtener mejor informacion, en vez de ocupar el comando `docker info`, se ocupa el `docker node`, con el cual permitira algunas de las siguientes opciones:
+
+* Listar/Ver nodos de un cluster.
+* Inspeccionar uno o mas nodos.
+* Promover un nodo a `Manager` desde el modo `Worker`
+
+### Comandos Nodo
+
+#### Docker node ls
+
+permite listar los nodos worker que estan unidos al manager, entregando la siguiente informacion.
+* ID (Numero de identificacion unico)
+* HOSTNAME (Muestra lso nombres del nodo, ejemplo nodo1, nodo2)
+* STATUS
+* AVAILABILITY
+* MANAGER STATUS 
+* ENGINE VERSION
+
+#### Docker node inspect
+
+para saber la informacion de un nodo especifico se ocupa.
+```ps
+docker node inspect HOSTNAME
+```
+>HOSTNAME es el numero del nodo, ejemplo nodo 3.
+
+Para obtener la informacion que entrega mas ordenada y no en formato JSON.
+```ps
+docker node inspect --pretty HOSTNAME
+```
+
+
+
+
+
+
+
+
 
 
