@@ -1760,20 +1760,84 @@ permite listar los nodos worker que estan unidos al manager, entregando la sigui
 para saber la informacion de un nodo especifico se ocupa.
 ```ps
 docker node inspect HOSTNAME
+
+# Ejemplo
+docker node inspect nodo2
 ```
 >HOSTNAME es el numero del nodo, ejemplo nodo 3.
 
-Para obtener la informacion que entrega mas ordenada y no en formato JSON.
+Para obtener la informacion que entrega mas ordenada y no en formato **JSON**.
 ```ps
 docker node inspect --pretty HOSTNAME
 ```
 
+#### Docker node promote
 
+Para administar los manager(puede existir mas de uno), y colocar otro nodo existente como lider, ejemplo en caso de que se caiga el servicio.
 
+```ps
+docker node promote HOSTNAME
+# Ejemplo
+docker node promote node6
+```
+> Promueve el nodo6 a manager.
+>
+> En el caso de que se promueva un nodo(Que seria el segundo nodo o posterior), posteriormente ademas del nodo lider(El inicial el cual en el status manager aparecera como **Leader**), este aparecera como **Reachable**(Alcanzable), esto confirma que en caso de que el primer nodo que esta como lider se caiga, o se le quite su status de Leader, el nodo6 tendra el control.
+>
+> -->docker node ls
+>|HOSTNAME|MANAGER STATUS|
+>|:--:|:--:|
+>|nodo1|Leader|
+>|nodo2|      |
+>|nodo3|      |
+>|nodo4|      |
+>|nodo5|      |
+>|nodo6|Reachable|
 
+#### Docker node Demote
 
+Quita el privilegio de manager de un nodo y lo pasa a worker.
+```ps
+docker node demote HOSTNAME 
+# Ejemplo
+docker node demote node1
+```
+>En caso de quitar un nodo de lider, este no aceptara comandos ya que no posee los privilegios (en este caso, **Leader**), por lo tanto uno debe conectarse al nodo lider, que este disponible(con `docker node ls` se puede saber quien es el lider).
+>
+> -->docker node ls
+>|HOSTNAME|MANAGER STATUS|
+>|:--:|:--:|
+>|nodo1|      |
+>|nodo2|      |
+>|nodo3|      |
+>|nodo4|      |
+>|nodo5|      |
+>|nodo6|Leader|
 
+#### Docker Swarm leave
 
+Este comando sirve para que un nodo determinado se de, dé baja de un cluster existente.
+```ps
+docker swarm leave
+```
+>Este comando es necesario que se ejecute en el nodo, el cual se desea dar de baja del cluster.
+>
+>No sale del cluster solo, se da de baja, pero posteriormente es posible ingresarlo con el comando JOIN.
+>|HOSTNAME|STATUS|
+>|:--:|:--:|
+>|nodo1|Ready|
+>|nodo2|Down|
 
+#### Docker node rm
 
+Sirve para sacar un nodo de manera permanente de un cluster existente.
+
+```ps
+docker node rm HOSTNAME
+# Ejemplo
+docker node rm nodo3
+```
+>En caso, de querer añadir nuevamente el nodo al cluster, se ocupa **docker swarm join-token `worker/manager`**(Se puede elegir como se desea agregar un nodo a un cluster **`worker/manager`**), en el nodo lider y asi obtener el token(el comando completo, el cual se pegara y ejecutara en el nodo a agregar), en el nodo que se desea agregar.
+
+## Crear Servicios Nodo
 
