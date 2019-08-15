@@ -1785,6 +1785,7 @@ docker node promote node6
 > En el caso de que se promueva un nodo(Que seria el segundo nodo o posterior), posteriormente ademas del nodo lider(El inicial el cual en el status manager aparecera como **Leader**), este aparecera como **Reachable**(Alcanzable), esto confirma que en caso de que el primer nodo que esta como lider se caiga, o se le quite su status de Leader, el nodo6 tendra el control.
 >
 > -->docker node ls
+>
 >|HOSTNAME|MANAGER STATUS|
 >|:--:|:--:|
 >|nodo1|Leader|
@@ -1805,6 +1806,7 @@ docker node demote node1
 >En caso de quitar un nodo de lider, este no aceptara comandos ya que no posee los privilegios (en este caso, **Leader**), por lo tanto uno debe conectarse al nodo lider, que este disponible(con `docker node ls` se puede saber quien es el lider).
 >
 > -->docker node ls
+>
 >|HOSTNAME|MANAGER STATUS|
 >|:--:|:--:|
 >|nodo1|      |
@@ -1823,6 +1825,7 @@ docker swarm leave
 >Este comando es necesario que se ejecute en el nodo, el cual se desea dar de baja del cluster.
 >
 >No sale del cluster solo, se da de baja, pero posteriormente es posible ingresarlo con el comando JOIN.
+>
 >|HOSTNAME|STATUS|
 >|:--:|:--:|
 >|nodo1|Ready|
