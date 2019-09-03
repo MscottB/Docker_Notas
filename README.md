@@ -1842,5 +1842,96 @@ docker node rm nodo3
 ```
 >En caso, de querer añadir nuevamente el nodo al cluster, se ocupa **docker swarm join-token `worker/manager`**(Se puede elegir como se desea agregar un nodo a un cluster **`worker/manager`**), en el nodo lider y asi obtener el token(el comando completo, el cual se pegara y ejecutara en el nodo a agregar), en el nodo que se desea agregar.
 
-## Crear Servicios Nodo
+## Servicios (Docker Swarm)
+
+Para trabajar con servicios se utiliza `docker service`. Y se deben ejecutar en el nodo **Leader**. Ya que otros nodos no permitiran su ejecucion.
+
+### Crear servicio (docker service create)
+
+Crear un servicio se utiliza el comando:
+`docker service create`.
+
+Pero es posible personalizar el servicio desde la linea de comando al crear dicho servicio.
+
+```ps
+docker service create --replicas N° --name NOMBRE_SERVICIO IMAGEN_DOCKER COMANDO_EJECUTAR
+
+# Ejemplo
+docker service create --replicas 1 --servicio0 alphine-linux ping google.com
+```
+
+Descripcion:
+* __--replicas__: es la cantidad de veces que el servicio se ejecutara en los nodos disponibles.
+* __N°__: Es el numero de replicas, con el cual se ejecutara.
+* __--name__: El nombre que llevara el servicio el cual se va a crear.
+* __Imagen_Docker__: La imagen "base" que se ocupara para el servicio.
+* __Comando__: Lo que se ejecutara en la imagen del servicio. 
+
+### Ver servicios (Docker Service ls)
+
+Para ver los servicios que estan en ejecucion se utiliza:
+`docker service ls`.
+
+|ID|NAME|MODE|REPLICAS|IMAGE|PORTS|
+|:--:|:--:|:--:|:--:|:--:|:--:|
+|xxxXXxxx|Servicio0|Replicated|**1/1**|alphine-linux||
+
+### Ver Informacion Servicio especifico (docker service ps)
+
+Para Sirve para ver mas informacion de un servicio en especifico como el nodo en el que se encuentra, hace cuanto tiempo se creo dicho servicio, etc.
+```ps
+docker service ps NOMBRE_SERVICIO
+# EJEMPLO
+docker service ps Servicio0
+```
+
+### Ver Informacion sobre ejecucion de un servicio (docker service logs)
+
+Para poder ver lo que ha realizado un servicio en ejecucion, se debe obtener el log de dicho servicio, con el siguiente comando:
+```ps
+docker service logs NOMBRE_SERVICIO
+# Ejemplo
+docker serveice logs Servicio0
+```
+
+### Ver toda la informacion relacionada a un servicio (docker service inspect)
+
+funciona como cualquier otro inspect.
+```ps
+docker service inspect --pretty Nombre_Servicio
+```
+>--pretty sirve para ver de manera mas ordenada la informacion que se entrega.
+
+### Escalar Servicio
+
+para escalar, replicar o repetir un servicio, se ocupa:
+```ps
+docker service scale Nombre_Servicio=Nuevo_N°_Replicas
+
+# Ejemplo
+docker service scale Servicio0=3
+```
+>cada vez que se inicia un servicio este es una tarea.
+>
+>Solo se puede escalar el servicio el numero de nodos, mientras los recursos lo permitan.
+>
+>Si no posee recursos suficientes, entregara un error.
+
+Si se desea disminuir el numero de replicas se vuelve a ejecutar el comando anterior con un nuevo numero de replicas, pero en este caso un N° inferior.
+```ps
+docker service scale Service0=1
+```
+
+### Borrar un servicio
+
+Para borrar un servicio se ocupa:
+```ps
+docker service rm Nombre_Servicio
+
+# Ejemplo
+docker service rm Service0
+```
+
+
+
 
