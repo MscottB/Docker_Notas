@@ -112,6 +112,7 @@
     * [Cambiar nombre Proyecto](#id10-9-2)
     * [Ejecutar de manera correcta nuevo docker-compose](#id10-9-3)
     * [Ver lista con nuevo nombre de proyecto](#id10-9-4)
+  * [Limitar servicios Docker-Compose](#id10-10)
 * [Docker Registry](#id11)
   * [Crear registro de imagenes](#id11-1)
   * [Subir/Bajar imagen a un registro](#id11-2)
@@ -1824,6 +1825,22 @@ docker-compose -p Nombre_Proyecto ps
 ```
 este cambio se aplicara a la mayoria de los comandos de docker-compose, por lo tanto se le debe agregar `-p Nombre_proyecto` para poder ejecutar de manera correcta, dichos comandos. Si no se realiza de esta manera, volvera a bsucar con el nombre de la carpeta contenedora del archivo.
 
+# <div id='id10-10'/>
+## Limitar servicios Docker-Compose
+
+Para limitar el consumo de recursos del hardware, en cada servicio que se debse agregar el siguiente contenido.
+```
+shm_size: 256m
+cpu_count: "1"
+cpus: "0.5"
+mem_limit: 256m
+```
+> Para que funcione la version de docker-compose.yml limitada, debe ser 2.X, ya que no funciona en la version 3 o superior. Esto afecta a la cpu y al limite de memoria ram.
+
+* **shm_size**: La unidad es opcional y puede ser b(bytes), k(kilobytes), m(megabytes) o g(gigabytes). Si se omite `shm_size` el tamaño de la unidad va a ser de 64m por defecto. y esta debe ser mayor a 0.
+
+* **cpus/cpu-period/cpu-quota**: Si hay 1 CPU, `cpus=0`.5obtendrá el mismo resultado que la configuración `cpu-period=50000` y `cpu-quota=25000`(50% de CPU). El valor predeterminado para `cpus` es 0.000, lo que significa que no hay límite.
+
 # <div id='id11'/>
 # Docker Registry
 
@@ -2221,8 +2238,8 @@ docker service rm Service0
 # <div id='id13'/>
 # Creditos Documento
 
-Michael Scott Bravo
-Ingeniero en Informatica
-michael.scott.bravo@gmail.com
+* Michael Scott Bravo
+* Ingeniero en Informatica
+* michael.scott.bravo@gmail.com
 
 
