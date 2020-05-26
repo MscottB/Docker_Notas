@@ -1839,7 +1839,7 @@ mem_limit: 256m
 
 * **shm_size**: La unidad es opcional y puede ser b(bytes), k(kilobytes), m(megabytes) o g(gigabytes). Si se omite `shm_size` el tamaño de la unidad va a ser de 64m por defecto. y esta debe ser mayor a 0.
 
-* **cpus/cpu-period/cpu-quota**: Si hay 1 CPU, `cpus=0`.5obtendrá el mismo resultado que la configuración `cpu-period=50000` y `cpu-quota=25000`(50% de CPU). El valor predeterminado para `cpus` es 0.000, lo que significa que no hay límite.
+* **cpus/cpu-period/cpu-quota**: Si hay 1 CPU, `cpus=0.5` obtendrá el mismo resultado que la configuración `cpu-period=50000` y `cpu-quota=25000`(50% de CPU). El valor predeterminado para `cpus` es 0.000, lo que significa que no hay límite.
 
 # <div id='id11'/>
 # Docker Registry
