@@ -1,9 +1,153 @@
-# Docker
+# **Indice**
+
+* [Introduccion Docker](#id1)
+  * [Imagen VS Contenedor](#id1-1)
+  * [Docker Servicio - Comandos](#id1-2)
+    * [Docker Exec](#id1-2-1)
+    * [Docker Logs](#id1-2-2)
+    * [Docker Top](#id1-2-3)
+    * [Docker Stats](#id1-2-4)
+    * [Docker Inspect](#id1-2-5)
+    * [Docker Image](#id1-2-6)
+    * [Docker Container](#id1-2-7)
+    * [Docker --help](#id1-2-8)
+    * [Ejemplo Centos/Ubuntu/Mint](#id1-2-9)
+* [Imagenes](#id2)
+  * [Buscar imagen docker por CMD](#id2-1)
+  * [Descargar imagen](#id2-2)
+  * [Ver imagenes en repositorio local](#id2-3)
+  * [Ver IDs de las imagenes en repositorio local](#id2-4)
+  * [Filtrar imagenes](#id2-5)
+  * [Eliminar una Imagen](#id2-6)
+  * [Borrar todas las imagenes](#id2-7)
+  * [Historial cambios imagen](#id2-8)
+* [Contenedores](#id3)
+  * [Crear contenedor](#id3-1)
+  * [Crear contenedor con nombre](#id3-2)
+  * [Crear Contenedor Interactivo](#id3-3)
+  * [Crear contenedor en segundo plano (Background)](#id3-4)
+  * [Crear contenedor con eliminado automatico](#id3-5)
+  * [Ingresar a contenedor en modo interactivo](#id3-6)
+  * [Salir de un Contenedor sin detener ejecucion](#id3-7)
+  * [Detener contenedor](#id3-8)
+  * [Detener todos los contenedores](#id3-9)
+  * [Ver contenedores en ejecucion](#id3-10)
+  * [Ver contenedores detenidos](#id3-11)
+  * [Ver ultimo contenedor arrancado](#id3-12)
+  * [Ver ultimos contenedores que se han ejecutado(cantidad)](#id3-13)
+  * [Ver IDs de containers](#id3-14)
+  * [Ver tamaño del contenedor](#id3-15)
+  * [Filtrar lista de contenedores](#id3-16)
+  * [Eliminar un Contenedor](#id3-17)
+    * [Eliminar todos los contenedores](#id3-17-1)
+    * [Historial Cambios Contenedor](#id3-17-2)
+* [Puertos Docker](#id4)
+  * [Convertir puertos en publico](#id4-1)
+    * [Explicacion Columna Ports](#id4-1-1)
+  * [Crear un contenedor con un puerto especifico](#id4-2)
+* [Redes Docker](#id5)
+  * [Ver lista de redes en docker](#id5-1)
+  * [Obtener direccion IP de un contenedor](#id5-2)
+  * [Obtener informacion detallada de una red](#id5-3)
+  * [Crear nueva red](#id5-4)
+    * [Crear red con rango subnet](#id5-4-1)
+  * [Asociar contenedor a red](#id5-5)
+  * [Enlazar contenedor](#id5-6)
+    * [Bridge (Red por Defecto)](#id5-6-1)
+    * [Red Perzonalizada](#id5-6-2)
+  * [Borrar Red](#id5-7)
+* [Volumenes en Docker](#id6)
+  * [Crear Volumen](#id6-1)
+  * [Listar Volumen](#id6-2)
+  * [Obtener informacion de volumen](#id6-3)
+  * [Crear un directorio compartido(Carpeta)](#id6-4)
+  * [Compartir Volumen entre contenedor](#id6-5)
+  * [Crear Volumen de forma independiente](#id6-6)
+    * [Nombre Personalizado](#id6-6-1)
+    * [Permiso Lectura](#id6-6-2)
+    * [Uso windows](#id6-6-3)
+  * [Borrar Volumen Especifico](#id6-7)
+  * [Borrar volumen inactivos o no asociados](#id6-8)
+* [Manipulacion de Imagen y Contenedor](#id7)
+  * [Modificar Imagen](#id7-1)
+  * [Crear Imagen](#id7-2)
+* [DockerFile](#id8)
+  * [Crear imagen con Dockerfile](#id8-1)
+  * [Comando RUN](#id8-2)
+  * [Comando CMD](#id8-3)
+  * [Entrypoint](#id8-4)
+  * [Workdir](#id8-5)
+  * [COPY-ADD](#id8-6)
+    * [COPY](#id8-6-1)
+    * [ADD](#id8-6-1)
+  * [ENV](#id8-7)
+  * [ARG](#id8-8)
+  * [EXPOSE](#id8-9)
+  * [VOLUME](#id8-10)
+* [Docker Hub](#id9)
+  * [Subir imagen a Docker HUB](#id9-1)
+* [Docker Compose](#id10)
+  * [Instalar Docker-Compose](#id10-1)
+  * [Docker-compose - Comandos](#id10-2)
+    * [docker-compose up](#id10-2-1)
+    * [docker-compose ps](#id10-2-2)
+    * [docker-compose images](#id10-2-3)
+    * [docker-compose config](#id10-2-4)
+    * [docker-compose start](#id10-2-5)
+    * [docker-compose logs](#id10-2-6)
+    * [docker-compose top](#id10-2-7)
+    * [docker-compose pause](#id10-2-8)
+    * [docker-compose restart](#id10-2-9)
+    * [docker-compose stop](#id10-2-10)
+    * [docker-compose rm](#id10-2-11)
+    * [docker-compose down](#id10-2-12)
+  * [Estructura fichero Docker-Compose](#id10-3)
+  * [Construir Docker-Compose(Construir servicios)](#id10-4)
+  * [Listar micro servicios](#id10-5)
+  * [Enlazar contenedores, servicios, puertos y variables](#id10-6)
+  * [Volumenes en Docker-Compose](#id10-7)
+  * [Redes en Docker-Compose](#id10-8)
+  * [Cambiar Nombre de Archivo y Proyecto de docker-compose](#id10-9)
+    * [Ocupar fichero docker-compose con otro nombre](#id10-9-1)
+    * [Cambiar nombre Proyecto](#id10-9-2)
+    * [Ejecutar de manera correcta nuevo docker-compose](#id10-9-3)
+    * [Ver lista con nuevo nombre de proyecto](#id10-9-4)
+* [Docker Registry](#id11)
+  * [Crear registro de imagenes](#id11-1)
+  * [Subir/Bajar imagen a un registro](#id11-2)
+    * [Crear Tag](#id11-2-1)
+    * [Subir imagen](#id11-2-2)
+    * [Descargar imagen](#id11-2-3)
+  * [Almacenamiento Docker Registry](#id11-3)
+* [Docker Swarm](#id12)
+  * [Crear Cluster](#id12-1)
+  * [Añadir nodos](#id12-2)
+  * [Trabajar con Nodos/Cluster](#id12-3)
+    * [Comandos Nodo/Cluster](#id12-3-1)
+      * [Docker node ls](#id12-3-1-1)
+      * [Docker node inspect](#id12-3-1-2)
+      * [Docker node promote](#id12-3-1-3)
+      * [Docker node Demote](#id12-3-1-4)
+      * [Docker Swarm leave](#id12-3-1-5)
+      * [Docker node rm](#id12-3-1-6)
+  * [Servicios](#id12-4)
+    * [Crear servicio (docker service create)](#id12-4-1)
+    * [Ver servicios (Docker Service ls)](#id12-4-2)
+    * [Ver Informacion Servicio especifico (docker service ps)](#id12-4-3)
+    * [Ver Informacion sobre ejecucion de un servicio (docker service logs)](#id12-4-4)
+    * [Ver toda la informacion relacionada a un servicio (docker service inspect)](#id12-4-5)
+    * [Escalar Servicio](#id12-4-6)
+    * [Borrar un servicio](#id12-4-7)
+* [Creditos Documento](#13)
+
+# <div id='id1'/>
+# Introduccion Docker
 
 Docker sirver para crear contenedores ligeros y portables para las aplicaciones/software/webs se puedan ejecutar en cualquier maquina donde docker se encuentre instalado, independiente del sistema operativo que se este ejecutando en ese momento.
 
 >Un contenedor es una "caja" donde se encontrara todo lo que la aplicacion necesita para poder ejecutarse, ademas de la propia aplicacion en si misma que se esta desarrollando.
 
+# <div id='id1-1'/>
 ## Imagen VS Contenedor
 
 Docker sirve para distribuir "Maquinas".
@@ -19,8 +163,10 @@ Ademas es posible generar dos tipos de contenedores, los cuales son:
 
 * Linux: incluye una capa del kernel de lix para ejecutar en cualquier sistema.
 
+# <div id='id1-2'/>
 ## Docker Servicio - Comandos
 
+# <div id='id1-2-1'/>
 ### Docker Exec
 
 **Exec** es un comando de administracion de contenedores.
@@ -39,6 +185,7 @@ hola-mundo
 ```
 >Este ejemplo se aplica a un contenedor que ya este en ejecucion.
 
+# <div id='id1-2-2'/>
 ### Docker Logs
 
 Permite ver que esta imprimiendo en pantalla un contenedor que se encuentre en segundo plano(Background).
@@ -58,6 +205,7 @@ docker logs 1234asd --Tail 20
 ```
 >Mostrara las 20 ultimas lineas ejecutadas por el contenedor.
 
+# <div id='id1-2-3'/>
 ### Docker Top
 
 Permite saber cual es el proceso que mas consume recursos dentro de un contenedor.
@@ -66,13 +214,15 @@ Permite saber cual es el proceso que mas consume recursos dentro de un contenedo
 docker top ID/Nombre_Container
 ```
 
-### Docker stats
+# <div id='id1-2-4'/>
+### Docker Stats
 
 Permite ver informacion sobre un contenedor, como uso de CPU y memoria, ademas de otras cosas.
 ```t
 docker stats ID/Nombre_Contenedor
 ```
 
+# <div id='id1-2-5'/>
 ### Docker Inspect
 
 Permite recuperar la informacion de una imagen o contenedor, a nivel de propiedades y caracteristicas.
@@ -92,6 +242,7 @@ docker inspect --format='{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}
 ```
 >La informacion que entrega es variada como la imagen con la cual el contenedor se genero, fecha de creacion, plataforma(linux-windows),su red, entre muchos otros.
 
+# <div id='id1-2-6'/>
 ### Docker image
 
 Sirve para administrar imagenes, agrupa todos los comandos que tienen relacion con las imagenes y sus Opciones son las siguientes:
@@ -119,6 +270,7 @@ Ejemplo
 |docker image ls|docker images|
 |docker image rm|docker rm|  
 
+# <div id='id1-2-7'/>
 ### Docker Container
 
 Al igual que docker image, docker container agrupa todos los comandos relacionados con los contenedores.
@@ -160,6 +312,7 @@ Ejemplo
 |docker container ls|docker ps|
 |docker container ls -a|docker ps -a|  
 
+# <div id='id1-2-8'/>
 ### Docker --help
 
 En caso de necesitar ayuda para saber que hace un comando se agrega el **--help**.
@@ -188,7 +341,8 @@ Options:
   -s, --size            Display total file sizes
 ```
 
-### Ejemplo Centos 7/Ubuntu 16
+# <div id='id1-2-9'/>
+### Ejemplo Centos/Ubuntu/Mint
 * __Docker status__(**systemctl status docker**): sirve para saber el estado de docker en la maquina.
 * __Docker start__(**systemctl start docker**): arranca el servicio de docker(en linux).
 * __Docker stop__(**systemctl stop docker**): detiene el servicio.
@@ -197,8 +351,10 @@ Options:
 * __Docker info:__ entrega multiples datos(Espacio, caracteristicas, etc), entre los cuales se destaca la cantidad de conetenedores e imagenes y el estado de estos.
 * __Docker run__: cada vez que se ejecuta este comando, crea un nuevo contenedor, no recicla contenedores ejecutados previamente.
 
+# <div id='id2'/>
 # imagenes
 
+# <div id='id2-1'/>
 ## Buscar imagen docker por CMD
 
 con este comando se buscara y entregara una lista de imagenes que se encuentran en el HUB.
@@ -207,6 +363,7 @@ docker search NombreBuscar
 ```
 >Retorna como maximo 25 resultados.
 
+# <div id='id2-2'/>
 ## Descargar imagen
 
 para descargar una imagen del HUB de docker al entorno local se ocupa el siguiente comando.
@@ -215,6 +372,7 @@ para descargar una imagen del HUB de docker al entorno local se ocupa el siguien
 docker pull NombreImagen
 ```
 
+# <div id='id2-3'/>
 ## Ver imagenes en repositorio local
 
 para ver las imagenes desdecargadas que tenemos en nuestro equipo, se ocupa el siguiente comando.
@@ -223,6 +381,7 @@ para ver las imagenes desdecargadas que tenemos en nuestro equipo, se ocupa el s
 docker images
 ```
 
+# <div id='id2-4'/>
 ## Ver IDs de las imagenes en repositorio local
 
 Entregara una lista de todos los id de todas las imagenes que tengamos en el repositorio local de la maquina.
@@ -230,6 +389,7 @@ Entregara una lista de todos los id de todas las imagenes que tengamos en el rep
 docker images -q
 ```
 
+# <div id='id2-5'/>
 ## Filtrar imagenes
 
 Se aplica de manera similar que al filtrar los contenedores.
@@ -238,6 +398,7 @@ Se aplica de manera similar que al filtrar los contenedores.
 docker images -f
 ```
 
+# <div id='id2-6'/>
 ## Eliminar una Imagen
 
 Para eliminar una imagen que se encuentre en nuestro repositorio local se eejcuta el siguiente comando:
@@ -253,6 +414,7 @@ docker rmi ID/Nombre_Contenedor
 >
 >Si aun asi se desea eliminar la imagen asociada, antes que el contenedor el comando se debe forzar con la bandera **'-f'**.
 
+# <div id='id2-7'/>
 ## Borrar todas las imagenes 
 
 con este comando se eliminaran TODAS las imagenes que se tengan almacenadas, en el repositorio local.
@@ -260,6 +422,7 @@ con este comando se eliminaran TODAS las imagenes que se tengan almacenadas, en 
 docker rmi $(docker images -q)
 ```
 
+# <div id='id2-8'/>
 ## Historial cambios imagen
 
 Para saber los cambios que ha sufrido una imagen en su proceso de construccion a lo largo del tiempo se puede ocupar:
@@ -267,8 +430,10 @@ Para saber los cambios que ha sufrido una imagen en su proceso de construccion a
 docker image history Nombre_Imagen
 ```
 
+# <div id='id3'/>
 # Contenedores
 
+# <div id='id3-1'/>
 ## Crear contenedor
 
 Para crear un contenedor se ocupa el siguiente comando.
@@ -292,6 +457,7 @@ docker run hello-world
 
 > Docker Hub es un registro online de imagenes.
 
+# <div id='id3-2'/>
 ## Crear contenedor con nombre
 
 Para crear un contenedor con nombre se ocupa el comando **--name**, ejemplo:
@@ -300,6 +466,7 @@ docker run -it --name ubuntu_personal ubuntu bash
                       Nombre_Asignado Imagen
 ```
 
+# <div id='id3-3'/>
 ## Crear Contenedor Interactivo
 
 Permite crear un contenedor interactivo si la imagen asi lo permite con el comando `-it`(**i** de interactivo, **t** de terminal), esto permite ingresar he interactuar con el contenedor(si este lo permite), ejemplo trabajar en la terminal de una imagen como ubuntu.
@@ -309,6 +476,7 @@ docker run -it ubuntu
 ```
 >La imagen contiene una version minima de ubuntu.
 
+# <div id='id3-4'/>
 ## Crear contenedor en segundo plano (Background)
 
 Para mantener en ejecucion un container en segundo plano, sin tener que mantener activa una ventana de comandos para interactuar con el(entorno interactivo).
@@ -320,6 +488,7 @@ docker run -d nginx
 >
 >Un contenedor en modo independiente no puede ser removido automáticamente cuando se detiene, esto significa que no se puede usar la opción --rm en combinación con la opción -d.
 
+# <div id='id3-5'/>
 ## Crear contenedor con eliminado automatico
 
 Para evitar que los contenedores detenidos se acumulen, esta la opcion que se eliminen de manera automatica, una vez finalizada su funcion, el cual es agregandole el **--rm** al comando.
@@ -329,6 +498,7 @@ docker run -it --rm --name Nombre_Contenedor Nombre_imagen
 ```
 >Ingresara en modo interactivo y cuando uno salga de ese modo el contenedor se eliminara.
 
+# <div id='id3-6'/>
 ## Ingresar a contenedor en modo interactivo
 
 Para ingresar a un contenedor que posea el modo interactivo y que ademas se ha creado con anterioridad y este en estado de detenido ejemplo, ubuntu,  se ejecuta el siguiente comando para iniciarlo y ingresar a esté. Asi no se creara un nuevo contenedor.
@@ -338,12 +508,14 @@ docker start -i ID_Contenedor
 ```
 > Cuando el contenedor se detiene no se eliminan de manera automatica.
 
+# <div id='id3-7'/>
 ## Salir de un Contenedor sin detener ejecucion
 para salir del container sin detenerlo y que asi pueda seguir ejecutandose se ocupa la siguiente combinacion de teclado.
 ```ps
 Ctrl+P+Q
 ```
 
+# <div id='id3-8'/>
 ## Detener contenedor
 
 Para detener un contenedor que se encuentre en ejecucion, se ocupa:
@@ -351,6 +523,7 @@ Para detener un contenedor que se encuentre en ejecucion, se ocupa:
 docker stop ID_Contenedor
 ```
 
+# <div id='id3-9'/>
 ## Detener todos los contenedores
 
 para detener todos los conteendores que se encuentren en ejecucion, se ocupa lo sigueinte.
@@ -359,6 +532,7 @@ docker stop $(docker ps -a -q)
 ```
 >Probado en PowerShell
 
+# <div id='id3-10'/>
 ## Ver contenedores en ejecucion
 
 Para poder ver los contenedores que se estan ejecutando en la maquina se puede ocupar una de las siguientes opciones.
@@ -371,6 +545,7 @@ docker container ls
 docker ps
 ```
 
+# <div id='id3-11'/>
 ## Ver contenedores detenidos
 
 Para ver los contenedores que estan creados pero al mismo tiempo detenidos se ocupa.
@@ -381,6 +556,7 @@ docker ps -a
 >
 >Con este comando tambien se mostrara los que estan en ejecucion.
 
+# <div id='id3-12'/>
 ## Ver ultimo contenedor arrancado
 
 se puede visualizar el ultimo contenedor que ha realizado una operacion.
@@ -389,6 +565,7 @@ se puede visualizar el ultimo contenedor que ha realizado una operacion.
 docker ps -l
 ```
 
+# <div id='id3-13'/>
 ## Ver ultimos contenedores que se han ejecutado(cantidad)
 
 Con esta opcion se podra ver los ultimos contenedores que han realizado alguna operacion, ademas se puede especificar la cantidad que se desea mostrar.
@@ -400,6 +577,7 @@ docker ps -n 4
 >
 >Este numero(4) se puede cambiar por cualquiera dependiendo de la necesidad.
 
+# <div id='id3-14'/>
 ## Ver IDs de containers
 
 para visualizar solamente los ID, y asi poder crear operaciones automaticas
@@ -412,6 +590,7 @@ docker ps -aq
 ```
 >con esta opcion mostrara todas las IDs de los contenedores, independiente del estado en el que se encuentre.
 
+# <div id='id3-15'/>
 ## Ver tamaño del contenedor
 
 Para poder ver el tamaño que ocupa un contendor en el sistema se ocupa el __-S__, en este caso, se presenta un ejemplo para ver el tamaño de los ultimos 3 contenedores.
@@ -420,11 +599,14 @@ Para poder ver el tamaño que ocupa un contendor en el sistema se ocupa el __-S_
 docker ps -a -n 3 -s
 ```
 
-## Filtrar lista de contenedores(--filter, -f)
+# <div id='id3-16'/>
+## Filtrar lista de contenedores
 
 Permite agregar una o mas opciones a la busqueda de contenedores, al momento de realizar una lista de estos.
 A continuacion se muestran las opciones disponibles.
-
+```
+(--filter, -f)
+```
 |Filtro|Descripcion|
 |:--:|:--:|
 |**`id`**| ID del contenedor|
@@ -450,6 +632,7 @@ docker ps -a -f "name=XX"
 ```
 >**XX** hace referencia al nombre del contenedor
 
+# <div id='id3-17'/>
 ## Eliminar un Contenedor
 
 Para eliminar un contenedor que se encuentre detenido se ocupa el siguiente comando:
@@ -467,7 +650,7 @@ En el extraño caso que se desee eliminar un contenedor que este en ejecucion se
 ```ps
 docker rm ID_Contenedor/Nombre_Contenedor -f
 ```
-
+# <div id='id3-17-1'/>
 ### Eliminar todos los contenedores
 
 Elimina todos los contenedores que hemos creado.
@@ -480,6 +663,7 @@ docker rm $(docker ps -a -q)
 
 >Si tenemos algun contenedor en ejecucion se debe usar `-f`, para forzar la eliminacion o detener la ejecucion.
 
+# <div id='id3-17-2'/>
 ### Historial Cambios Contenedor
 Para saber que cambios,instalaciones o modificaciones a sufrido un contenedor, condera los archivos y directorios.
 ```ps
@@ -494,11 +678,13 @@ Los cambios se muestran con una letra al principio indicando que se le realizo:
 * **C(Modificacion)**: Para archivo modificado.
 * **D(Eliminado)**: Para archivo eliminado
 
+# <div id='id4'/>
 # Puertos Docker
 
 Los contenedores deben ser accesibles desde afuera del contenedor para poder utilizarse(una API por ejemplo o apache), para esto se ocupan los puertos, estos por defecto son privados y no es posible acceder a ellos, por lo tanto es necesario pasarlos a publico y mapearlo con un puerto del host/sistema que aloja el contenedor.
 
-### Convertir puertos en publico
+# <div id='id4-1'/>
+## Convertir puertos en publico
 
 al iniciar un contenedor y que este tenga luspuertos en estado publico y no privado, que es por defecto se le agrega el **-P**, al comando.
 ```t
@@ -510,7 +696,8 @@ docker run -d -P nombre_imagen
 >
 >Con P(Mayuscula), docker se encargara de mapear los puertos, por lo tanto el numero será aleatorio y p(minusula) para indicar un puerto en especifico.
 
-#### Explicacion Columna Ports
+# <div id='id4-1-1'/>
+### Explicacion Columna Ports
 
 0.0.0.0:24312->80/tcp
 
@@ -520,7 +707,8 @@ docker run -d -P nombre_imagen
 
 >Para acceder al contenedor que tenga habilitada esta configuracion, se agrega la siguiente direccion en el navegador **localhost:24312**. Si el contenedor fuera apache, nginx o similar.
 
-### crear un contenedor con un puerto especifico
+# <div id='id4-2'/>
+## Crear un contenedor con un puerto especifico
 
 Los puertos que se generan en los contenedores  son aleatorios y parten del puerto 32768. Pero para poder tener un mayor control en este aspecto, es posible especificar este parametro, con el siguiente comando.
 ```t
@@ -532,6 +720,7 @@ docker run -d -p 8080:80 Nombre_Imagen
 >
 >Con P(Mayuscula), docker se encargara de mapear los puertos, por lo tanto el numero será aleatorio y p(minusula) para indicar un puerto en especifico.
 
+# <div id='id5'/>
 # Redes Docker
 
 Por defecto mostrara 3 redes, previemente creadas, las cuales son;
@@ -542,12 +731,14 @@ Por defecto mostrara 3 redes, previemente creadas, las cuales son;
 
 La columna **SCOPE**, muestra si el funcionamiento de la red es de manera local, o conectada a otros equipos.
 
+# <div id='id5-1'/>
 ### Ver lista de redes en docker
 
 Para ver todas las redes en docker, se ocupa lo siguiente:
 ```ps
 docker network ls
 ```
+# <div id='id5-2'/>
 ### Obtener direccion IP de un contenedor
 
 para obtener informacion mas especifica de los datos devueltos por inspect, se ocupa **--format**, y ocupa una plantilla de Golang.
@@ -573,7 +764,7 @@ Para guardar la informacion de una inspeccion en un archivo seria de la siguient
 docker inspect Nombre/ID_Contenedor > Nombre_Archivo.txt
 ```
 
-
+# <div id='id5-3'/>
 ### Obtener informacion detallada de una red
 
 Entrega informacion detallada de una red seleccionada, similar al obtenido con inspect para los contenedores, ademas de incluir los contenedores que estan asociadas a la red.
@@ -585,6 +776,7 @@ docker network inspect Nombre_red
 >
 >Mostrara los contenedores que esten conectados y en ejecucion en la red que se esta inspeccionando.
 
+# <div id='id5-4'/>
 ### Crear nueva red
 
 Para crear una red nueva en docker se ocupa.
@@ -596,6 +788,7 @@ docker network create Nombre_Red
 >
 >Si no se especifica un driver en especifico en la red que se esta creando este sera del tipo **bridge**. Esto se puede cambiar con **--driver string**.
 
+# <div id='id5-4-1'/>
 #### Crear red con rango subnet
 
 La direccion de subnet es de ejemplo.
@@ -603,6 +796,7 @@ La direccion de subnet es de ejemplo.
 docker network create --subnet=192.168.0.0/16
 ```
 
+# <div id='id5-5'/>
 ### Asociar contenedor a red
 
 Para ejecutar y asociar un contenedor a una red existente se ejecuta lo siguiente:
@@ -621,11 +815,13 @@ Para desconectar un contenedor de una red es:
 ```ps
 docker network disconnect Nombre_Red Nombre_Contenedor
 ```
+# <div id='id5-6'/>
 ### Enlazar contenedor
 
 Se puede enlazar de dos maneras.
 
-* #### Bridge(Red por Defecto)
+# <div id='id5-6-1'/>
+* #### Bridge (Red por Defecto)
 
 Una manera de realizar el enlace es mediante **--links**, aunque no es recomendable, ya que perdera soporte con el tiempo. Y es recomendable cuando se usa la red por defecto. 
 
@@ -653,6 +849,7 @@ docker run -it --rm --name Nombre_contenedor --link Nombre_contenedor_destino:al
 >
 >* Si el contenedor no se creo con --link no podra reconocer el enlace a otros contenedores mediante el nombre o el alias, solo por la direccion IP. Osea es unidireccional en este modo.
 
+# <div id='id5-6-2'/>
 * #### Red Perzonalizada
 
 Para agregar un contenedor a una red personalizada se puede ocupar.
@@ -665,7 +862,7 @@ Para poder acceder al contenedor:
 ```
 docker exec -it Nombre_Contenedor bash
 ```
-
+# <div id='id5-7'/>
 ### Borrar Red
 
 para borrar una red ya creada se ocupa.
@@ -674,6 +871,7 @@ docker network rm Nombre_Red
 ```
 >No es posible borrar una red que tenga contenedores asociados.
 
+# <div id='id6'/>
 # Volumenes en Docker
 
 Es un componente de docker importante, por varias razones que se presentan a continuacion;
@@ -686,6 +884,7 @@ Es un componente de docker importante, por varias razones que se presentan a con
 * Los volumenes se administran mediante Docker.
 * Se pueden usar y administrar de manera remota.
 
+# <div id='id6-1'/>
 ## Crear Volumen
 
 Una forma sencilla de crear un volumen , es al momento de crear un contenedor.
@@ -696,6 +895,7 @@ docker run -it -v Carpeta_Volumen --name Nombre_Contenedor Nombre_Imagen bash
 >
 >El lugar donde se crea, es por defecto docker/volumenes, pero puede perzonalizarse la ubicacion de ser necesario.
 
+# <div id='id6-2'/>
 ## Listar Volumen
 
 Para ver la lista de volumenes creados se ocupa:
@@ -704,6 +904,7 @@ docker volume ls
 ```
 >Se podra ver el driver y el nombre del volumen, si no se especifica este ultimo, se generara un codigo aleatorio para el nombre.
 
+# <div id='id6-3'/>
 ## Obtener informacion de volumen
 
 Para obtener informacion relacionada al volumen deseado se ocupa lo siguiente;
@@ -712,6 +913,7 @@ docker volume inspect ID/Nombre_Volumen
 ```
 >Se obtendra informacion, como fecha de creacion, tipo de driver, punto de montaje(direccion de carpeta que almacena los datos), el nombre, entre otros.
 
+# <div id='id6-4'/>
 ## Crear un directorio compartido(Carpeta)
 
 Al crear un volumen la direccion que se genera de manera automatica no es la mas "sencilla" con la que se puede trabajar ejemplo:
@@ -730,6 +932,7 @@ docker run -it -v /root/carpeta1:/carpeta1
 
 **Se asocia el directorio entre contenedor y la maquina que lo aloja, por lo tanto no se podria considerar un volumen esto se muestra como "HostConfig/Binds" al revisar los datos del contenedor**
 
+# <div id='id6-5'/>
 ## Compartir Volumen entre contenedor
 
 para compartir un volumen entre dos contenedores.
@@ -748,8 +951,10 @@ docker run -it --name Nombre_Contenedor --volumes-from Nombre_Contenedor1 Nombre
 
 No es posible realizar esta accion directamente al volumen, es necesario que primero se encuentre un contenedor iniciado y conectado a dicho volumen para poder realizar esta accion.
 
-## Crear Volumen de forma independiente(Nombre Personalizado, permiso de lectura, uso windows)
+# <div id='id6-6'/>
+## Crear Volumen de forma independiente
 
+# <div id='id6-6-1'/>
 ### Nombre Personalizado
 En vez de ocupar un nombre que se genera de manera automatica, podemos ocupar uno personalizado creado por el usuario, de la siguiente manera:
 ```ps
@@ -759,11 +964,13 @@ Para asociarlo a un contenedor se ocupa como ejemplo lo siguiente:
 ```ps
 docker run -it --name Nombre_Contenedor Nombre_Volumen:Nombre_Directorio Nombre_Imagen bash 
 ```
+# <div id='id6-6-2'/>
 ### Permiso Lectura
 Para que un contenedor no pueda realizar modificaciones en un directorio y solo realice **lectura**, se le agrega `**:ro**` al Nombre_Directorio.
 ```ps
 docker run -it --name Nombre_Contenedor Nombre_Volumen:Nombre_Directorio:ro Nombre_Imagen bash 
 ```
+# <div id='id6-6-3'/>
 ### Uso windows
 Si se desea realizar lo mismo pero en windows, se ocupa de la siguiente manera:
 ```ps
@@ -775,6 +982,7 @@ docker run -it --name ubuntu7 -v C:\\Users\\XXXX\\dir1:volumenDocker ubuntu bash
 >
 >Se debe tener la contraseña del equipo para que docker pueda acceder, ademas de los permisos en firewall.
 
+# <div id='id6-7'/>
 ## Borrar Volumen Especifico
 
 Para borrar un volumen se ocupa:
@@ -783,6 +991,7 @@ docker volume rm ID/Nombre_Volumen
 ```
 >Para poder eliminar exitosamente el volumen no puede terner asociado o que sea dependencia de un contenedor.
 
+# <div id='id6-8'/>
 ## Borrar volumen inactivos o no asociados
 
 Para eliminar volumenes que ya no esten en uso por almenos un contenedor o hayan quedado sin haber sido eliminados.
@@ -791,8 +1000,10 @@ docker volume prune
 ```
 >Mostrara un mensaje de advertencia para confirmar la accion.
 
+# <div id='id7'/>
 # Manipulacion de Imagen y Contenedor
 
+# <div id='id7-1'/>
 ## Modificar Imagen
 
 Una de las primeras opciones a ocupar para crear una imagen es mediante la modificacione de conteendores.
@@ -803,6 +1014,7 @@ docker run -it --name Nombre_Contenedor Nombre_Imagen bash
 ```
 Al tener el contenedor ejecutando, posteriormente se instala los softwares requeridos/solicitados(/necesitados?), y al final al dejar el contenedor como se desea. 
 
+# <div id='id7-2'/>
 ## Crear Imagen
 Para crear una imagen con un contenedor modificado se puede ahccer de manera automatica o manual, en este caso se mostrara la manera manual.
 ```ps
@@ -810,6 +1022,7 @@ docker commit ID/Nombre_Contenedor Nombre_Nueva_Imagen:tag
 ```
 >si no se especifica el tag, agregara **latest** de manera automatica.
 
+# <div id='id8'/>
 # DockerFile
 
 Es un archivo de configuracion que permite construir imagenes de manera automatica.
@@ -822,7 +1035,7 @@ FROM scratch
 COPY hello /
 CMD ["/hello"]
 ```
-
+# <div id='id8-1'/>
 ## Crear imagen con Dockerfile
 
 Para empezar se crea un archivo llamado `Dockerfile`(Se respera mayusculas).
@@ -857,6 +1070,7 @@ En caso de estar en windows y crear un contenedor de linux mostrara la siguiente
 
 **ADVERTENCIA DE SEGURIDAD: Está creando una imagen de Docker desde Windows contra un host que no sea Docker de Windows. Todos los archivos y directorios añadidos al contexto de construcción tendrán permisos '-rwxr-xr-x'. Se recomienda volver a comprobar y restablecer los permisos de los archivos y directorios sensibles.**
 
+# <div id='id8-2'/>
 ## Comando RUN
 
 Para ejecutar multiples comandos en una misma capa en la imagen se ocupa `&&`, ejemplo:
@@ -871,6 +1085,7 @@ RUN echo 1.0 >> /etc/version && apt-get install -y git \
 ```
 > Para los que no saben la **\\** sirve para que siga ejecutando la linea siguiente.
 
+# <div id='id8-3'/>
 ## Comando CMD
 
 Permite indicar el comando por defecto del contenedor, Puede haber muchos **CMD** en un Dockerfile, pero el ultimo es el que cuenta, por lo tanto lo recomendable es tener **UNO** por Dockerfile.
@@ -906,6 +1121,7 @@ CMD ["echo", "Mensaje a Mostrar"]
 ```
 >Esta ultima manera permite ejecutar como exec, para asi evitar posibles errores al ocupar un bash. Ademas se evita el tener que depender del bash de un conteendor, ya que es seguro que se pueda ejecutar exec de docker.
 
+# <div id='id8-4'/>
 ## Entrypoint
 
 Es similar a CMD, ya que permite ejecutar algo cuando de inicia un contenedor, con la diferencia que el comando ejecutado con **entrypoint** se ejecutara siempre no es un comando "opcional", a diferencia de CMD.
@@ -945,6 +1161,7 @@ bin dev home lib64 mnt proc run srv tmp sys etc
 >
 >Se recomienda ocupar el modo exec(JSON), para ejecutar comando con entrypoint.
 
+# <div id='id8-5'/>
 ## Workdir
 
 Este comando permite el poder determinar el directorio de trabajo para otros comandos ejemplo entripoint, run, etc.
@@ -971,8 +1188,12 @@ root@XXXXXXXXXXXX:/info2#
 
 En resumen permite crear datos o componentes en carpetas especificas.
 
+# <div id='id8-6'/>
 ## COPY-ADD
 
+Permite la manipulacion de archivosentre una maquina host y un contenedor.
+
+# <div id='id8-6-1'/>
 ### COPY
 
 Permite copiar archivos de la maquina host a un contenedor.
@@ -1004,6 +1225,7 @@ ENTRYPOINT ["/bin/bash"]
 >
 >Copy acepta metacaracteres.
 
+# <div id='id8-6-2'/>
 ### ADD
 
 copia o lleva ficheros o carpetas al contenedor. similar a COPY
@@ -1040,6 +1262,7 @@ ENTRYPOINT ["/bin/bash"]
 >
 >ADD tambien tiene la opcion de traer cosas desde una URL, ejemplo archivos.
 
+# <div id='id8-7'/>
 ## ENV
 
 Es posible utilizar variables con ENV, a demas la manera mas simple de ocupar variables es al momento de crear un contenedor.
@@ -1098,6 +1321,7 @@ ENTRYPOINT ["/bin/bash"]
 ```
 >Al revisar se podra ver las carpetas creadas y agregadas al registro env, del contenedor.
 
+# <div id='id8-8'/>
 ## ARG
 
 Permite poner variables, es similar a env, pero arg permite recibir variables al momento de construir algo.
@@ -1144,6 +1368,7 @@ docker build -t Nombre_Imagen --build-arg dir2=/datos2 .
 Con esto no va a generar error
 > es posible pasar mas de una variable. Cada variable debe incluir el --build-arg
 
+# <div id='id8-9'/>
 ## EXPOSE
 
 Permite exponer puertos, se le indica que un puerto en especifico es publico al crear una imagen. 
@@ -1156,6 +1381,7 @@ EXPOSE 80
 >
 >De igual manera al crear el contenedor se debe asignar el puerto ejemplo, `-p 8080:80`.
 
+# <div id='id8-10'/>
 ## VOLUME
 
 Permite crear volumenes de manera automatica a traves del dockerfile.
@@ -1177,10 +1403,12 @@ CMD /info2/entrypoint.sh
 >
 >Recordar que los volumenes son externos al contenedor
 
+# <div id='id9'/>
 # Docker Hub
 
 Es un repositorio de images donde encuentras imagenes creadas por empresas(repositorios oficiales) y otras creadas por usuarios.
 
+# <div id='id9-1'/>
 ## Subir imagen a Docker HUB
 
 Para poder subir la imagen primero se agrega la cuanta con el siguiente comando.
@@ -1204,25 +1432,34 @@ Posteriormente, se realiza el `docker push`
 docker push usuarioDocker/Nombre_Imagen:TAG
 ```
 
+# <div id='id10'/>
 # Docker Compose
 
 Es un servicio que "orquesta" servicios o componentes, mediante un archivo llamado `docker-compose.yml` que contiene instrucciones para crear los enlaces entre contenedores que contengan servicios(Base de datos, BackEnd, FrontEnd, etc.).
 
 En resumen, permite gestionar/simplificar una arquitectura de manera sencilla, ejemplo el Stack MEAN (MongoDB, Express, Angular, Nodejs).
 
-## Instalar Docker Compose
+# <div id='id10-1'/>
+## Instalar Docker-Compose
 
-Docker Compose ya esta instalado en windows, al instalar docker, para mac y linux se realiza manualmente, para mas detalles ver documentacion.
+Docker Compose ya esta instalado en windows, al instalar docker, para mac y linux se realiza manualmente, para mas detalles [Ver Documentacion](https://docs.docker.com/).
 
+# <div id='id10-2'/>
 ## Docker-compose - Comandos
 
+# <div id='id10-2-1'/>
 ### docker-compose up
 
 Sirve para iniciar compose, con la configuracion del archivo `docker-compose.yml`
 ```ps
 docker-compose up
 ```
+Para iniciar docker-compose, y al mismo tiempo eliminar la ejecucion anterior del mismo archivo(por que se estan realizando modificaciones) se agrega la siguiente bandera.
+```ps
+docker-compose up --remove-orphans
+```
 
+# <div id='id10-2-2'/>
 ### docker-compose ps
 
 Entrega informacion similar a `docker ps`, muestra los contenedores que conforman un servicio y su estado
@@ -1230,6 +1467,7 @@ Entrega informacion similar a `docker ps`, muestra los contenedores que conforma
 docker-compose ps
 ```
 
+# <div id='id10-2-3'/>
 ### docker-compose images
 
 Permite ver las imagenes que se utilizan para los contenedores.
@@ -1237,6 +1475,7 @@ Permite ver las imagenes que se utilizan para los contenedores.
 docker-compose images
 ```
 
+# <div id='id10-2-4'/>
 ### docker-compose config
 
 Permite saber si el archivo `docker-compose.yml` es correcto.
@@ -1252,6 +1491,7 @@ docker-compose config --service
 ```
 >Para ejecutarlo de manera correcta se debe estar en la carpeta donde se encuentra dicho archivo.
 
+# <div id='id10-2-5'/>
 ### docker-compose start
 
 Permite iniciar los contenedores que componen un servicio.
@@ -1259,6 +1499,7 @@ Permite iniciar los contenedores que componen un servicio.
 docker-compose start
 ```
 
+# <div id='id10-2-6'/>
 ### docker-compose logs
 
 Permite ver los logs(registros de sucesos que hizo el servicio incluye notas, warning, errores, etc.) de un servicio en especifico.
@@ -1267,12 +1508,15 @@ Permite ver los logs(registros de sucesos que hizo el servicio incluye notas, wa
 docker-compose logs Nombre_Servicio
 ```
 
+# <div id='id10-2-7'/>
 ### docker-compose top
 
 Muestra los procesos mas pesados de un servicio.
 ```ps
 docker-compose top Nombre_Servicio
 ```
+
+# <div id='id10-2-8'/>
 ### docker-compose pause
 
 Se puede pausar de manera temporal, los contenedores y servicios que se esten ejecutando en docker.
@@ -1284,6 +1528,7 @@ Para volver a activarlos, se ocupa.
 docker-compose unpause
 ```
 
+# <div id='id10-2-9'/>
 ### docker-compose restart
 
 reinicia los servicios.
@@ -1292,6 +1537,7 @@ docker-compose restart
 ```
 >Se debe ejecutar con cuidado ya que es posible que pierda, servicios.
 
+# <div id='id10-2-10'/>
 ### docker-compose stop
 
 Para detener los servicios que actualmente se ejecutan en compose.
@@ -1299,6 +1545,7 @@ Para detener los servicios que actualmente se ejecutan en compose.
 docker-compose stop
 ```
 
+# <div id='id10-2-11'/>
 ### docker-compose rm
 
 Sirve para eliminar servicios que se esten ejecutando en compose.
@@ -1306,10 +1553,12 @@ Sirve para eliminar servicios que se esten ejecutando en compose.
 docker-compose rm
 ```
 
+# <div id='id10-2-12'/>
 ### docker-compose down
 
 Detiene los servicios, ademas borra los servicios, contenedores, redes. Para eliminar los volumenes asociados al servicio que se estaba ejecutando, se ocupa `docker volume prune`.
 
+# <div id='id10-3'/>
 ## Estructura fichero Docker-Compose
 
 El fichero `docker-compose.yml` consta de una estructura que similar a la siguiente.
@@ -1339,6 +1588,7 @@ volumes:
 >
 >**Link** al igual que en los contenedores es para unirlo a una red especifica.
 
+# <div id='id10-4'/>
 ## Construir Docker-Compose(Construir servicios)
 
 Primero se crea el archivo `docker-compose.yml` con las instrucciones.
@@ -1361,6 +1611,7 @@ docker-compose up -d
 >Se recomienda ejecutarlo en modo background con el comando `-d`
 >Docker Compose va a crear una red nueva por defecto si no se le especifica.
 
+# <div id='id10-5'/>
 ## Listar micro servicios
 
 Al igual que con los contenedores uno puede listar los micro servicios de docker-compose, con el siguiente comando.
@@ -1368,7 +1619,8 @@ Al igual que con los contenedores uno puede listar los micro servicios de docker
 docker-compose ps
 ```
 
-## Enlazar contenedores, servicios, puertos y variables.
+# <div id='id10-6'/>
+## Enlazar contenedores, servicios, puertos y variables
 
 Se creara un micro servicio, mas completo.
 
@@ -1414,7 +1666,8 @@ docker-compose up
 ```
 Posteriormente acceder a `localhost:8080`
 
-## Volumenes en Docker Compose
+# <div id='id10-7'/>
+## Volumenes en Docker-Compose
 
 Los volumenes en docker-compose, funcionan igual que en docker normal. La unica diferencia son los comandos y la manera en la que se manejan.
 
@@ -1464,7 +1717,8 @@ Estructura:
 * __volume:__ es donde se pueden colocar algunas opciones en este caso **nocopy:true**, el cual permitira que el contenedor no sea copiado.
 * __Volumes:__ Se declaran los volumenes que se han creado para confirmar cuales son los volumenes.
 
-## Redes en Docker Compose
+# <div id='id10-8'/>
+## Redes en Docker-Compose
 
 Creacion y configuracion de un stack con docker-compose, mostrando algunas opciones disponibles en la seccion de red.
 
@@ -1533,8 +1787,10 @@ Estructura:
     * __driver:__ el driver de la subred, en este caso la opcion es default.
     * __config:__ contiene las ip de la subnet de la red, de la ipv4 y ipv6.
 
+# <div id='id10-9'/>
 ## Cambiar Nombre de Archivo y Proyecto de docker-compose
 
+# <div id='id10-9-1'/>
 ### Ocupar fichero docker-compose con otro nombre
 
 Para personalizar el nombre de docker compose basta con renombrar el archivo y ejecutar el siguiente comando:
@@ -1542,6 +1798,7 @@ Para personalizar el nombre de docker compose basta con renombrar el archivo y e
 docker-compose -f Nuevo_Nombre_Archivo.yml
 ```
 
+# <div id='id10-9-2'/>
 ### Cambiar nombre Proyecto
 
 Al ejecutar docker-compose siempre ocupara el nombre del la carpeta que contiene los archivos, en caso de querer cambiarlos se puede ocupar lo siguiente
@@ -1549,6 +1806,7 @@ Al ejecutar docker-compose siempre ocupara el nombre del la carpeta que contiene
 docker-compose -p Nombre_Proyecto
 ```
 
+# <div id='id10-9-3'/>
 ### Ejecutar de manera correcta nuevo docker-compose
 
 Para ejecutar docker-compose con las nuevas opciones mostradas anteriormente, se ejecuta de la siguiente manera.
@@ -1557,6 +1815,7 @@ docker-compose -f Nuevo_Nombre_Archivo.yml -p Nombre_Proyecto up
 ```
 >agregar -d si se desea ejecutarlo en modo background
 
+# <div id='id10-9-4'/>
 ### Ver lista con nuevo nombre de proyecto
 
 Al momento de ejecutar `docker-compose ps`, no deberia mostrar nada si se ocupo el `-p`, ya que buscara los servicios que contengan el nombre de la carpeta, que contiene el archivo. para poder ver estos servicios con nombre personalizado se ejecuta de la siguiente manera.
@@ -1565,12 +1824,14 @@ docker-compose -p Nombre_Proyecto ps
 ```
 este cambio se aplicara a la mayoria de los comandos de docker-compose, por lo tanto se le debe agregar `-p Nombre_proyecto` para poder ejecutar de manera correcta, dichos comandos. Si no se realiza de esta manera, volvera a bsucar con el nombre de la carpeta contenedora del archivo.
 
+# <div id='id11'/>
 # Docker Registry
 
 Es una "alternativa" a hub.docker.com, el cual permite crear nuestro propio repositorio de imagenes __privado__, esto permite la posibilidad de poder usarse a nivel de empresas, en su propia red privada.
 
 Por lo tanto permite crear multiples registros, el cual cada uno sera un "hub" privado. Ademas cada uno de los registros puede almacenar imagenes diferentes dependiendo de las necesidades.
 
+# <div id='id11-1'/>
 ## Crear registro de imagenes
 
 Para crear un registro es necesario descargar la imagen `Registry` de docker hub, y ejecutar un contenedor con este.
@@ -1586,10 +1847,12 @@ docker run -d -p 5000:5000 --name Nombre_Contenedor registry
 ```
 >El numero del puerto es modificable a gusto del usuario.
 
+# <div id='id11-2'/>
 ## Subir/Bajar imagen a un registro
 
 Es similar a subir una imagen a docker hub, con la diferencia que en vez de colocar nuestro usuario, colocamos la direccion/Nombre Equipo y puerto del registro.
 
+# <div id='id11-2-1'/>
 ### Crear Tag
 Como requisito previo al igual que en HUB, es necesario ocupar `docker tag`.
 
@@ -1604,6 +1867,7 @@ docker tag ubuntu localhost:5555/nuevo-ubuntu
 >
 >para buscar la imagen es `docker images Nombre_Imagen` ejemplo `docker images localhost:5555/*` y mostrara todos las imagenes que esten en el registro.
 
+# <div id='id11-2-2'/>
 ### Subir imagen
 Ejemplo subir imagen a registro
 ```ps
@@ -1615,6 +1879,8 @@ docker push Direccion/NombreMaquina:Puerto/Nombre_Imagen:tag
 docker push localhost:5555/nuevo-ubuntu:latest
 ```
 >Docker sabra a que repostiorio subira la imagen. por lo tanto no es un dato que pida.
+
+# <div id='id11-2-3'/>
 ### Descargar imagen
 
 Es igual como a cualquier imagen.
@@ -1627,6 +1893,7 @@ docker pull localhost:5555/nuevo-ubuntu:latest
 ```
 >El tag por defecto es latest.
 
+# <div id='id11-3'/>
 ## Almacenamiento Docker Registry
 
 Registry al igual que cualquier imagen de docker, se puede especificar la opcion de donde se almacena la informacion de la imagen, con el volumen.
@@ -1652,6 +1919,7 @@ docker run -d --name registro_ejemplo -p 5000:5000 -v /Registros:/var/lib/regist
 ```
 > __"Destination"__ es el que contiene la direccion `/var/lib/registry`, en la informacion del contenedor, y es donde por defecto registry guarda las imagenes.
 
+# <div id='id12'/>
 # Docker Swarm
 
 Permite crear un cluster de multiples nodos docker, permitiendo disponer de manera replicada, los "servicios"(Componente que se replica) que creamos, en varios nodos del cluster. Ademas de funcionar de manera independiente.
@@ -1659,7 +1927,8 @@ Permite crear un cluster de multiples nodos docker, permitiendo disponer de mane
 
 * Servicios Swarm: El servicio es en resumen un contenedor que se esta ejecutando, como cuando se inicia un docker-compose y se especifican los servicios.
 
-## Crear Cluster (Docker Swarm)
+# <div id='id12-1'/>
+## Crear Cluster
 
 >No es posible colocar mas de un nodo dentro de un equipo (fisico, vps, etc.).
 >
@@ -1713,6 +1982,7 @@ Finalmente, en caso de perder el comando se ocupa:
 docker swarm join-token worker
 ```
 
+# <div id='id12-2'/>
 ## Añadir nodos
 
 Para ver la informacion relacionada a los nodos se ocupa `docker info` en la seecion swarm.
@@ -1735,6 +2005,7 @@ En los nodos que desea unir al primero se debe tener docker instalado y agregar 
 
 Al realizar, el ingreso anterior se mostrara el mensaje `This node joined a swarm as a worker`, confirmando la union al primer nodo.
 
+# <div id='id12-3'/>
 ## Trabajar con Nodos/Cluster
 
 Para poder trabajar de manera comoda y obtener mejor informacion, en vez de ocupar el comando `docker info`, se ocupa el `docker node`, con el cual permitira algunas de las siguientes opciones:
@@ -1743,8 +2014,10 @@ Para poder trabajar de manera comoda y obtener mejor informacion, en vez de ocup
 * Inspeccionar uno o mas nodos.
 * Promover un nodo a `Manager` desde el modo `Worker`
 
-### Comandos Nodo
+# <div id='id12-3-1'/>
+### Comandos Nodo/Cluster
 
+# <div id='id12-3-1-1'/>
 #### Docker node ls
 
 permite listar los nodos worker que estan unidos al manager, entregando la siguiente informacion.
@@ -1755,6 +2028,7 @@ permite listar los nodos worker que estan unidos al manager, entregando la sigui
 * MANAGER STATUS 
 * ENGINE VERSION
 
+# <div id='id12-3-1-2'/>
 #### Docker node inspect
 
 para saber la informacion de un nodo especifico se ocupa.
@@ -1771,6 +2045,7 @@ Para obtener la informacion que entrega mas ordenada y no en formato **JSON**.
 docker node inspect --pretty HOSTNAME
 ```
 
+# <div id='id12-3-1-3'/>
 #### Docker node promote
 
 Para administar los manager(puede existir mas de uno), y colocar otro nodo existente como lider, ejemplo en caso de que se caiga el servicio.
@@ -1795,6 +2070,7 @@ docker node promote node6
 >|nodo5|      |
 >|nodo6|Reachable|
 
+# <div id='id12-3-1-4'/>
 #### Docker node Demote
 
 Quita el privilegio de manager de un nodo y lo pasa a worker.
@@ -1816,6 +2092,7 @@ docker node demote node1
 >|nodo5|      |
 >|nodo6|Leader|
 
+# <div id='id12-3-1-5'/>
 #### Docker Swarm leave
 
 Este comando sirve para que un nodo determinado se de, dé baja de un cluster existente.
@@ -1831,6 +2108,7 @@ docker swarm leave
 >|nodo1|Ready|
 >|nodo2|Down|
 
+# <div id='id12-3-1-6'/>
 #### Docker node rm
 
 Sirve para sacar un nodo de manera permanente de un cluster existente.
@@ -1842,10 +2120,12 @@ docker node rm nodo3
 ```
 >En caso, de querer añadir nuevamente el nodo al cluster, se ocupa **docker swarm join-token `worker/manager`**(Se puede elegir como se desea agregar un nodo a un cluster **`worker/manager`**), en el nodo lider y asi obtener el token(el comando completo, el cual se pegara y ejecutara en el nodo a agregar), en el nodo que se desea agregar.
 
+# <div id='id12-4'/>
 ## Servicios (Docker Swarm)
 
 Para trabajar con servicios se utiliza `docker service`. Y se deben ejecutar en el nodo **Leader**. Ya que otros nodos no permitiran su ejecucion.
 
+# <div id='id12-4-1'/>
 ### Crear servicio (docker service create)
 
 Crear un servicio se utiliza el comando:
@@ -1867,6 +2147,7 @@ Descripcion:
 * __Imagen_Docker__: La imagen "base" que se ocupara para el servicio.
 * __Comando__: Lo que se ejecutara en la imagen del servicio. 
 
+# <div id='id12-4-2'/>
 ### Ver servicios (Docker Service ls)
 
 Para ver los servicios que estan en ejecucion se utiliza:
@@ -1876,6 +2157,7 @@ Para ver los servicios que estan en ejecucion se utiliza:
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |xxxXXxxx|Servicio0|Replicated|**1/1**|alphine-linux||
 
+# <div id='id12-4-3'/>
 ### Ver Informacion Servicio especifico (docker service ps)
 
 Para Sirve para ver mas informacion de un servicio en especifico como el nodo en el que se encuentra, hace cuanto tiempo se creo dicho servicio, etc.
@@ -1885,6 +2167,7 @@ docker service ps NOMBRE_SERVICIO
 docker service ps Servicio0
 ```
 
+# <div id='id12-4-4'/>
 ### Ver Informacion sobre ejecucion de un servicio (docker service logs)
 
 Para poder ver lo que ha realizado un servicio en ejecucion, se debe obtener el log de dicho servicio, con el siguiente comando:
@@ -1894,6 +2177,7 @@ docker service logs NOMBRE_SERVICIO
 docker serveice logs Servicio0
 ```
 
+# <div id='id12-4-5'/>
 ### Ver toda la informacion relacionada a un servicio (docker service inspect)
 
 funciona como cualquier otro inspect.
@@ -1902,6 +2186,7 @@ docker service inspect --pretty Nombre_Servicio
 ```
 >--pretty sirve para ver de manera mas ordenada la informacion que se entrega.
 
+# <div id='id12-4-6'/>
 ### Escalar Servicio
 
 para escalar, replicar o repetir un servicio, se ocupa:
@@ -1922,6 +2207,7 @@ Si se desea disminuir el numero de replicas se vuelve a ejecutar el comando ante
 docker service scale Service0=1
 ```
 
+# <div id='id12-4-7'/>
 ### Borrar un servicio
 
 Para borrar un servicio se ocupa:
@@ -1932,5 +2218,11 @@ docker service rm Nombre_Servicio
 docker service rm Service0
 ```
 
+# <div id='id13'/>
+# Creditos Documento
+
+Michael Scott Bravo
+Ingeniero en Informatica
+michael.scott.bravo@gmail.com
 
 
