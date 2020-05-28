@@ -1031,7 +1031,7 @@ Es un archivo de configuracion que permite construir imagenes de manera automati
 Esta formado por un conjunto de instrucciones, que contiene para construir la imagen.
 
 Ejemplo Hello-Word
-```ps
+```dockerfile
 FROM scratch
 COPY hello /
 CMD ["/hello"]
@@ -1052,7 +1052,7 @@ Estructura basica:
 >
 
 Ejemplo
-```ps
+```dockerfile
 FROM XXXXX
 RUN apt-get update
 RUN apt-get install -y XXXXX
@@ -1093,7 +1093,7 @@ Permite indicar el comando por defecto del contenedor, Puede haber muchos **CMD*
 
 En resumen sirve para iniciar un comando.
 
-```ps
+```dockerfile
 FROM XXXXX
 RUN apt-get update
 RUN apt-get install -y XXXXX
@@ -1108,7 +1108,7 @@ CMD echo "XXXXXXXXXXXXXX"
 > El XXXXXXXX es el texto que podriamos ingresar y podra mostrar en la terminal.
 
 Tambien permite colocar corchetes, para ejecutar como exec en vez de bash, en resumen formato **JSON**.
-```ps
+```dockerfile
 FROM XXXXX
 RUN apt-get update
 RUN apt-get install -y XXXXX
@@ -1132,14 +1132,14 @@ Y al igual que CMD solo se puede tener uno por Dockerfile.
 En el ejemplo se mostrara el dockerfile configurado para ambos casos.
 
 Ejemplo Dokerfile CMD
-```ps
+```dockerfile
 FROM imagen
 RUN apt-get update
 RUN apt-get install -y ALGO
 CMD ["/bin/bash"]
 ```
 Ejemplo Dokerfile Entrupoint
-```ps
+```dockerfile
 FROM imagen
 RUN apt-get update
 RUN apt-get install -y ALGO
@@ -1170,7 +1170,7 @@ Este comando permite el poder determinar el directorio de trabajo para otros com
 Este comando puede estar multiples veces en un Dockerfile.
 
 Ejemplo
-```ps
+```dockerfile
 FROM imagen
 RUN apt-get update
 RUN apt-get install -y ALGO
@@ -1199,7 +1199,7 @@ Permite la manipulacion de archivosentre una maquina host y un contenedor.
 
 Permite copiar archivos de la maquina host a un contenedor.
 Ejemplo
-```vim
+```dockerfile
 FROM imagen
 RUN apt-get update
 RUN apt-get install -y ALGO
@@ -1231,7 +1231,7 @@ ENTRYPOINT ["/bin/bash"]
 
 copia o lleva ficheros o carpetas al contenedor. similar a COPY
 
-```vim
+```dockerfile
 FROM imagen
 RUN apt-get update
 RUN apt-get install -y ALGO
@@ -1290,7 +1290,7 @@ root@XXXXXXXXXXXX:/info2#echo $x
 >XXXXXX Nombre carpeta aloja proyecto
 
 En un archivo Dockerfile se podria hacer de la siguiente manera.
-```ps
+```dockerfile
 FROM ubuntu
 RUN apt-get update
 RUN apt-get install -y python
@@ -1568,7 +1568,7 @@ El fichero `docker-compose.yml` consta de una estructura que similar a la siguie
 * __Services:__ Se colocan todos los servicios que contendra compose, con un nombre que pueda ser identificable. Todos los servicios que se agregen al `docker-compose` deben tener el comando 'build' o 'images'
 
 Ejemplo
-```txt
+```yml
 version: '3'
 services:
       web:
@@ -1594,7 +1594,7 @@ volumes:
 
 Primero se crea el archivo `docker-compose.yml` con las instrucciones.
 Ejemplo
-```
+```yml
 version:'3'
 services:
   nginx:
@@ -1626,7 +1626,7 @@ docker-compose ps
 Se creara un micro servicio, mas completo.
 
 Ejemplo
-```docker
+```yml
 version: '3'
 services:
   wordpress:
@@ -1673,7 +1673,7 @@ Posteriormente acceder a `localhost:8080`
 Los volumenes en docker-compose, funcionan igual que en docker normal. La unica diferencia son los comandos y la manera en la que se manejan.
 
 Ejemplo:
-```vim
+```yml
 version: "3.2"
 services:
   web:
@@ -1724,7 +1724,7 @@ Estructura:
 Creacion y configuracion de un stack con docker-compose, mostrando algunas opciones disponibles en la seccion de red.
 
 Ejemplo
-```ps
+```yml
 version: '3.3'
 
 services:
@@ -1829,11 +1829,15 @@ este cambio se aplicara a la mayoria de los comandos de docker-compose, por lo t
 ## Limitar servicios Docker-Compose
 
 Para limitar el consumo de recursos del hardware, en cada servicio que se debse agregar el siguiente contenido.
-```
-shm_size: 256m
-cpu_count: "1"
-cpus: "0.5"
-mem_limit: 256m
+```yml
+version: '2.4'
+
+services:
+  Name_Services:
+    shm_size: 256m
+    cpu_count: "1"
+    cpus: "0.5"
+    mem_limit: 256m
 ```
 > Para que funcione la version de docker-compose.yml limitada, debe ser 2.X, ya que no funciona en la version 3 o superior. Esto afecta a la cpu y al limite de memoria ram.
 
