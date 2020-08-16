@@ -269,7 +269,7 @@ Ejemplo
 |Opcion 1 | Opcion 2|
 |:--:|:--:|
 |docker image ls|docker images|
-|docker image rm|docker rm|  
+|docker image rmi|docker rmi|  
 
 # <div id='id1-2-7'/>
 ### Docker Container
